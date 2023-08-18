@@ -13,8 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Tests for mcd_utils."""
-
-import mcd_utils
+from . import mcd_utils
 
 # import tensorflow as tf
 

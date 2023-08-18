@@ -94,7 +94,7 @@ class GenDataset():
         # test for i.i.d. generalization
     
     
-    def create_combs_mcd_splits(self, ratio=0.5)->None:
+    def create_combs_mcd_splits(self, ratio=0.5, times=30000)->None:
         '''
         this function is to generate the splits of seen combinations || unseen combinations;
         then we can use the self.create_train_by_combs to generate the training set.
@@ -105,9 +105,12 @@ class GenDataset():
             string = ''
             for key in keys:
                 # keep the same sequence
-                string = string + comb[key]
+                if string == '':
+                    string = comb[key]
+                else:
+                    string = string +' '+ comb[key]
             _combs.append(string)
-        max_samples, rand_samples, min_samples = get_mcd_splits(_combs, ratio)
+        max_samples, rand_samples, min_samples = get_mcd_splits(_combs, ratio, times=times)
         def transform(inp_samples:list)->list:
             '''
             inp_samples =   list( 
@@ -167,7 +170,10 @@ class GenDataset():
             string = ''
             for key in keys:
                 # keep the same sequence
-                string = string + comb[key]
+                if string == '':
+                    string = comb[key]
+                else:
+                    string = string +' '+ comb[key]
             _combs.append(string)
         
         max_attr_dim = 0
@@ -220,9 +226,9 @@ class GenDataset():
             return out_samples
         # mcd_splits = [(seen_combs, unseen_combs),...]
 
-        self.max_splits = transform(max_samples) # for maximum divergence (hard)
-        self.rand_splits = transform(rand_samples) # for random divergence (normal)
-        self.min_splits = transform(min_samples) # for minimum divergence (easy)
+        self.fewshot_max_splits = transform(max_samples) # for maximum divergence (hard)
+        self.fewshot_rand_splits = transform(rand_samples) # for random divergence (normal)
+        self.fewshot_min_splits = transform(min_samples) # for minimum divergence (easy)
         pass
 
 

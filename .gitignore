@@ -1,1 +1,5 @@
 dataset/
+aclImdb/
+language-style-transfer/
+sota_sentiment-master/
+aclImdb_v1.tar.gz

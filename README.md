@@ -2,7 +2,7 @@
 ### Datasets
 #### 1. Amazon Reviews
 2 attributes: "sent", "topic" 
-"sentiment"$\in${"pos","neg"}  
+"sent"$\in${"pos","neg"}  
 "topic"$\in${"books", "clothing", "music", "electronics", "movies", "sports"}
 
 #### 2. FYelp(v.1)
@@ -71,7 +71,7 @@ Below is an example:
 "person"$\in${"Plural","Singular"}
 "tense"$\in${"Present","Past"}
 
-#### 7. IMDB
+#### 7. IMDB (Not covered)
 3 attributes: "sentiment", "person", "tense" 
 "sentiment"$\in${"Pos","Neg"}  
 "person"$\in${"Plural","Singular"}
