@@ -80,4 +80,12 @@ Below is an example:
 #### 8. Mixture(IMDB, OpeNER and Sentube)
 2 attributes: "sentiment", "topic_cged" 
 "sentiment"$\in${"pos","neg"}  
-"topic_cged"$\in${"movie", "hotel", "tablet", "automobie"}
+"topic_cged"$\in${"imdb", "opener", "tablets", "auto"}
+
+### Usage
+Basically, you can refer to `test_load_dataset.py` and view the code in the `load_dataset.py`.  
+1. Construction of the classifer data : training/dev/testing (70% : 15% : 15%)
+2. Construction of the generator training data: HoldOut/MCD(max-avg-min)/FewShot(max-avg-min)
+3. Details on constructing the MCD/Few-Shot training set for generator:  
+TODO
+
