@@ -11,10 +11,15 @@ def check_train(datum:dict, hold_combs:list) -> bool:
     otherwise: datum is supposed to be held out;
     '''
     for i in range(len(hold_combs)):
+        flag = True
         for key in hold_combs[i].keys():
             if datum[key] != hold_combs[i][key]:
-                return True
-    return False
+                flag = False
+        if flag == False: # at least one attribute different
+            pass
+        else: # in this combination, all the attributes match
+            return False
+    return True
 
 class ClsDataset():
     '''
@@ -22,7 +27,22 @@ class ClsDataset():
     '''
     def __init__(self, file_path:str) -> None:
         fr = open(file_path, "r")
-        cls_data = json.load(fr)
+
+        if '.txt' not in file_path:
+            cls_data = json.load(fr)
+        else:
+            # for the last dataset
+            cls_data = list()
+            for line in fr.readlines():
+                line = line.rstrip('\n')
+                line = line.split('----')
+                assert len(line) == 3 # review, sentiment, topic_cged
+                datum = dict()
+                datum["review"] = line[0]
+                datum["sentiment"] = line[1]
+                datum["topic_cged"] = line[2]
+                cls_data.append(datum)
+
         random.shuffle(cls_data)
         '''
         [
@@ -47,7 +67,22 @@ class GenDataset():
     '''
     def __init__(self, file_path:str)->None:
         fr = open(file_path, "r")
-        self.gen_data = json.load(fr)
+
+        if '.txt' not in file_path:
+            self.gen_data = json.load(fr)
+        else:
+            # for the last dataset
+            self.gen_data = list()
+            for line in fr.readlines():
+                line = line.rstrip('\n')
+                line = line.split('----')
+                assert len(line) == 3 # review, sentiment, topic_cged
+                datum = dict()
+                datum["review"] = line[0]
+                datum["sentiment"] = line[1]
+                datum["topic_cged"] = line[2]
+                self.gen_data.append(datum)
+
         random.shuffle(self.gen_data)        
         '''
         [
@@ -94,7 +129,7 @@ class GenDataset():
         # test for i.i.d. generalization
     
     
-    def create_combs_mcd_splits(self, ratio=0.5, times=30000)->None:
+    def create_combs_mcd_splits(self, ratio=0.5, times=100000)->None:
         '''
         this function is to generate the splits of seen combinations || unseen combinations;
         then we can use the self.create_train_by_combs to generate the training set.
@@ -140,7 +175,7 @@ class GenDataset():
                     assert len(comb_li) == len(keys)
                     for i in range(len(keys)):
                         comb_dict[keys[i]] = comb_li[i]
-                    _seen.append(comb)
+                    _seen.append(comb_dict)
 
                 for comb in unseen:
                     comb_li = comb.split(' ')
@@ -148,7 +183,7 @@ class GenDataset():
                     assert len(comb_li) == len(keys)
                     for i in range(len(keys)):
                         comb_dict[keys[i]] = comb_li[i]
-                    _unseen.append(comb)
+                    _unseen.append(comb_dict)
                 
                 out_samples.append((_seen, _unseen))
             return out_samples
@@ -159,7 +194,7 @@ class GenDataset():
         self.min_splits = transform(min_samples) # for minimum divergence (easy)
 
         pass
-
+    
     def create_train_fewshot_split(self, shot_num=1)->None:
         '''
         basically, the fewshot_splits are constructed ** based ** on MCD splits;
@@ -212,7 +247,7 @@ class GenDataset():
                     assert len(comb_li) == len(keys)
                     for i in range(len(keys)):
                         comb_dict[keys[i]] = comb_li[i]
-                    _seen.append(comb)
+                    _seen.append(comb_dict)
 
                 for comb in unseen:
                     comb_li = comb.split(' ')
@@ -220,7 +255,7 @@ class GenDataset():
                     assert len(comb_li) == len(keys)
                     for i in range(len(keys)):
                         comb_dict[keys[i]] = comb_li[i]
-                    _unseen.append(comb)
+                    _unseen.append(comb_dict)
                 
                 out_samples.append((_seen, _unseen))
             return out_samples
@@ -230,6 +265,22 @@ class GenDataset():
         self.fewshot_rand_splits = transform(rand_samples) # for random divergence (normal)
         self.fewshot_min_splits = transform(min_samples) # for minimum divergence (easy)
         pass
+    
+    '''
+    def get_exp_name(self, task='Fyelp-4', exp_type='held_out', unseen_combs=None):
+        # unseen_combs: list(dict)
+        # name = task
+        name = task+'.'+exp_type
+        if exp_type == 'held_out':
+            sub_name = ''
+            for comb in unseen_combs:
+                sub_name = sub_name + '.'
+                for key in comb.keys():
+                    sub_name = sub_name+str(key)+'.'+str(comb[key])
+        elif exp_type == 'mcd':
+    '''  
+
+
 
 
 

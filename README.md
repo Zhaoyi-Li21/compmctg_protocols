@@ -66,10 +66,10 @@ Below is an example:
 }
 ```
 #### 6. Yelp
-3 attributes: "sentiment", "person", "tense" 
-"sentiment"$\in${"Pos","Neg"}  
-"person"$\in${"Plural","Singular"}
-"tense"$\in${"Present","Past"}
+3 attributes: "sentiment", "pronoun", "tense" 
+"sentiment"$\in${"pos","neg"}  
+"pronoun"$\in${"Plural","Singular"}
+"tense"$\in${"present","past"}
 
 #### 7. IMDB (Not covered)
 3 attributes: "sentiment", "person", "tense" 
