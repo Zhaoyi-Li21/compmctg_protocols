@@ -2,14 +2,14 @@
 ### Datasets
 #### 1. Amazon Reviews
 2 attributes: "sent", "topic"  
-"sent"$\in${"pos","neg"}  
-"topic"$\in${"books", "clothing", "music", "electronics", "movies", "sports"}
+1. "sent"$\in${"pos","neg"}  
+2. "topic"$\in${"books", "clothing", "music", "electronics", "movies", "sports"}
 
 #### 2. FYelp(v.1)
 3 attributes: "sentiment", "gender", "cuisine"  
-"sentiment"$\in${"Pos","Neg"}  
-"gender"$\in${"Male","Female"}  
-"cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
+1. "sentiment"$\in${"Pos","Neg"}  
+2. "gender"$\in${"Male","Female"}  
+3. "cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
 Below is an example:
 ```
 {
@@ -21,9 +21,9 @@ Below is an example:
 ```
 #### 3. FYelp(v.2)
 3 attributes: "sentiment", "gender", "cuisine"  
-"sentiment"$\in${"Pos","Neg","Neu"}  
-"gender"$\in${"Male","Female"}  
-"cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
+1. "sentiment"$\in${"Pos","Neg","Neu"}  
+2. "gender"$\in${"Male","Female"}  
+3. "cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
 Below is an example:
 ```
 {
@@ -35,10 +35,10 @@ Below is an example:
 ```
 #### 4. FYelp(v.3)
 4 attributes: "sentiment", "gender", "cuisine", "tense"  
-"sentiment"$\in${"Pos","Neg"}  
-"gender"$\in${"Male","Female"}  
-"cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
-"tense"$\in${"present","past"}  
+1. "sentiment"$\in${"Pos","Neg"}  
+2. "gender"$\in${"Male","Female"}  
+3. "cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
+4. "tense"$\in${"present","past"}  
 Below is an example:
 ```
 {
@@ -51,10 +51,10 @@ Below is an example:
 ```
 #### 5. FYelp(v.4)
 4 attributes: "sentiment", "gender", "cuisine", "tense"  
-"sentiment"$\in${"Pos","Neg","Neu"}  
-"gender"$\in${"Male","Female"}  
-"cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
-"tense"$\in${"present","past"}  
+1. "sentiment"$\in${"Pos","Neg","Neu"}  
+2. "gender"$\in${"Male","Female"}  
+3. "cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
+4. "tense"$\in${"present","past"}  
 Below is an example:
 ```
 {
@@ -66,15 +66,15 @@ Below is an example:
 }
 ```
 #### 6. Yelp
-3 attributes: "sentiment", "pronoun", "tense" 
-"sentiment"$\in${"pos","neg"}  
-"pronoun"$\in${"plural","singular"}
-"tense"$\in${"present","past"}
+3 attributes: "sentiment", "pronoun", "tense"  
+1. "sentiment"$\in${"pos","neg"}  
+2. "pronoun"$\in${"plural","singular"}  
+3. "tense"$\in${"present","past"}
 
 #### 7. Mixture(IMDB, OpeNER and Sentube)
-2 attributes: "sentiment", "topic_cged" 
-"sentiment"$\in${"pos","neg"}  
-"topic_cged"$\in${"imdb", "opener", "tablets", "auto"}
+2 attributes: "sentiment", "topic_cged"  
+1. "sentiment"$\in${"pos","neg"}  
+2. "topic_cged"$\in${"imdb", "opener", "tablets", "auto"}
 
 ### Usage
 Basically, you can refer to `test_load_dataset.py` and view the code in the `load_dataset.py`.  
