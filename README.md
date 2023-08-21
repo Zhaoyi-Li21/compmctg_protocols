@@ -9,7 +9,7 @@
 3 attributes: "sentiment", "gender", "cuisine"  
 "sentiment"$\in${"Pos","Neg"}  
 "gender"$\in${"Male","Female"}  
-"cuisine"$\in${"Asia","American","Mexican","Bar","Dessert"}  
+"cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
 Below is an example:
 ```
 {
@@ -23,7 +23,7 @@ Below is an example:
 3 attributes: "sentiment", "gender", "cuisine"  
 "sentiment"$\in${"Pos","Neg","Neu"}  
 "gender"$\in${"Male","Female"}  
-"cuisine"$\in${"Asia","American","Mexican","Bar","Dessert"}  
+"cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
 Below is an example:
 ```
 {
@@ -37,8 +37,8 @@ Below is an example:
 4 attributes: "sentiment", "gender", "cuisine", "tense"  
 "sentiment"$\in${"Pos","Neg"}  
 "gender"$\in${"Male","Female"}  
-"cuisine"$\in${"Asia","American","Mexican","Bar","Dessert"}  
-"tense"$\in${"Present","Past"}  
+"cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
+"tense"$\in${"present","past"}  
 Below is an example:
 ```
 {
@@ -53,8 +53,8 @@ Below is an example:
 4 attributes: "sentiment", "gender", "cuisine", "tense"  
 "sentiment"$\in${"Pos","Neg","Neu"}  
 "gender"$\in${"Male","Female"}  
-"cuisine"$\in${"Asia","American","Mexican","Bar","Dessert"}  
-"tense"$\in${"Present","Past"}  
+"cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
+"tense"$\in${"present","past"}  
 Below is an example:
 ```
 {
@@ -68,16 +68,10 @@ Below is an example:
 #### 6. Yelp
 3 attributes: "sentiment", "pronoun", "tense" 
 "sentiment"$\in${"pos","neg"}  
-"pronoun"$\in${"Plural","Singular"}
+"pronoun"$\in${"plural","singular"}
 "tense"$\in${"present","past"}
 
-#### 7. IMDB (Not covered)
-3 attributes: "sentiment", "person", "tense" 
-"sentiment"$\in${"Pos","Neg"}  
-"person"$\in${"Plural","Singular"}
-"tense"$\in${"Present","Past"}
-
-#### 8. Mixture(IMDB, OpeNER and Sentube)
+#### 7. Mixture(IMDB, OpeNER and Sentube)
 2 attributes: "sentiment", "topic_cged" 
 "sentiment"$\in${"pos","neg"}  
 "topic_cged"$\in${"imdb", "opener", "tablets", "auto"}
