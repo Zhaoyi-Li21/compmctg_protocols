@@ -1,7 +1,7 @@
 ## Compositional Testing Benchmark for Open-Domain Controllable Text Generation
 ### Datasets
 #### 1. Amazon Reviews
-2 attributes: "sent", "topic" 
+2 attributes: "sent", "topic"  
 "sent"$\in${"pos","neg"}  
 "topic"$\in${"books", "clothing", "music", "electronics", "movies", "sports"}
 
