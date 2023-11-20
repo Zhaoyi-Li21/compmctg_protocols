@@ -1,6 +1,6 @@
 import json
 import random
-from mcd.mcd_utils_test import get_mcd_splits, get_fewshot_splits
+from mcd.mcd_utils_test import get_mcd_splits, get_fewshot_splits, get_div_splits
 
 random.seed(2023) # control the randomness
 
@@ -266,19 +266,69 @@ class GenDataset():
         self.fewshot_min_splits = transform(min_samples) # for minimum divergence (easy)
         pass
     
-    '''
-    def get_exp_name(self, task='Fyelp-4', exp_type='held_out', unseen_combs=None):
-        # unseen_combs: list(dict)
-        # name = task
-        name = task+'.'+exp_type
-        if exp_type == 'held_out':
-            sub_name = ''
-            for comb in unseen_combs:
-                sub_name = sub_name + '.'
-                for key in comb.keys():
-                    sub_name = sub_name+str(key)+'.'+str(comb[key])
-        elif exp_type == 'mcd':
-    '''  
+    def create_specific_divergence_splits(self, divergence=0., torlerate=0.1, ratio=0.5, times=100000):
+        '''
+        this function is to generate the splits of seen combinations || unseen combinations;
+        then we can use the self.create_train_by_combs to generate the training set.
+        '''
+        _combs = list()
+        keys = list(self.combs[0].keys())
+        for comb in self.combs:
+            string = ''
+            for key in keys:
+                # keep the same sequence
+                if string == '':
+                    string = comb[key]
+                else:
+                    string = string +' '+ comb[key]
+            _combs.append(string)
+        samples = get_div_splits(_combs, div=divergence, torlerate= torlerate, ratio=ratio, times=times)
+        def transform(inp_samples:list)->list:
+            '''
+            inp_samples =   list( 
+                                tuple( 
+                                    list_1( str1, str2,... ), 
+                                    list_2( str1', str2',... ) 
+                                    ) 
+                                ...
+                            )
+            out_samples = list(
+                                tuple( 
+                                    list_1( dict1, dict2,... ), 
+                                    list_2( dict1', dict2',... ) 
+                                    ) 
+                            )
+            '''
+            out_samples = list()
+
+            for sample in inp_samples:
+                seen, unseen = sample # both seen and unseen are lists
+                _seen = list()
+                _unseen = list()
+
+                for comb in seen:
+                    comb_li = comb.split(' ')
+                    comb_dict = dict()
+                    assert len(comb_li) == len(keys)
+                    for i in range(len(keys)):
+                        comb_dict[keys[i]] = comb_li[i]
+                    _seen.append(comb_dict)
+
+                for comb in unseen:
+                    comb_li = comb.split(' ')
+                    comb_dict = dict()
+                    assert len(comb_li) == len(keys)
+                    for i in range(len(keys)):
+                        comb_dict[keys[i]] = comb_li[i]
+                    _unseen.append(comb_dict)
+                
+                out_samples.append((_seen, _unseen))
+            return out_samples
+        # mcd_splits = [(seen_combs, unseen_combs),...]
+
+        self.div_splits = transform(samples) # for a specific divergence
+
+
 
 
 

@@ -355,6 +355,132 @@ def maximize_divergence(examples_1, examples_2, get_compounds_fn, get_atoms_fn,
 
   return examples_1, examples_2
 
+def target_divergence(examples_1, examples_2, get_compounds_fn, get_atoms_fn,
+                        max_iterations, tgt_divergence, threshold, min_atom_count):
+  """Approx. maximizes compound divergence by iteratively swapping examples."""
+  start_idx_1 = 0
+  start_idx_2 = 0
+  compounds_1 = get_all_compounds(examples_1, get_compounds_fn=get_compounds_fn)
+  compounds_2 = get_all_compounds(examples_2, get_compounds_fn=get_compounds_fn)
+  for iteration_num in range(max_iterations):
+    atoms_1_single = _get_atoms_below_count(
+        examples_1, get_atoms_fn, atom_count=min_atom_count)
+
+    # Compute the compound divergence for the current split of examples.
+    divergence = compute_divergence(compounds_1, compounds_2)
+    # print("Iteration %s divergence: %s" % (iteration_num, divergence))
+    if divergence <= tgt_divergence * (1+threshold) and \
+                  divergence >= tgt_divergence * (1-threshold):
+      break
+    elif divergence > tgt_divergence * (1+threshold):
+      # Find a new pair of examples to swap to decrease compound divergence.
+      # First, we find an example in examples_1 that would increase compound
+      # divergence if moved to examples_2, and would not violate the atom
+      # constraint.
+      example_1_idx, example_1 = _get_mcd_idx_1_min(
+          divergence,
+          examples_1,
+          compounds_1,
+          compounds_2,
+          atoms_1_single,
+          get_compounds_fn=get_compounds_fn,
+          get_atoms_fn=get_atoms_fn,
+          start_idx=start_idx_1)
+      if not example_1:
+        # print("Cannot find example_1 idx to swap.")
+        break
+
+      compounds_example_1 = get_compounds_fn(example_1)
+      compounds_1.subtract(compounds_example_1)
+      compounds_2.update(compounds_example_1)
+
+      # Second, we find an example in examples_2 that would increase compound
+      # divergence if moved to examples_1, taking into account the effect of
+      # moving the example selected above to examples_2 first.
+      example_2_idx, example_2 = _get_mcd_idx_2_min(
+          divergence,
+          examples_2,
+          compounds_1,
+          compounds_2,
+          get_compounds_fn=get_compounds_fn,
+          start_idx=start_idx_2)
+
+      if not example_2:
+        # print("Cannot find example_2 idx to swap.")
+        break
+
+      compounds_example_2 = get_compounds_fn(example_2)
+      compounds_2.subtract(compounds_example_2)
+      compounds_1.update(compounds_example_2)
+
+      # Swap the examples.
+      # print("Swapping %s and %s." % (example_1, example_2))
+      examples_1[example_1_idx] = example_2
+      examples_2[example_2_idx] = example_1
+
+      # If a swap happens, we continue the search from those indices in the next
+      # iteration, since the previously skipped examples might be less likely to
+      # increase divergence.
+      start_idx_1 = (example_1_idx + 1) % len(examples_1)
+      start_idx_2 = (example_2_idx + 1) % len(examples_2)
+
+    elif divergence < tgt_divergence * (1-threshold):
+      # Find a new pair of examples to swap to increase compound divergence.
+      # First, we find an example in examples_1 that would increase compound
+      # divergence if moved to examples_2, and would not violate the atom
+      # constraint.
+      example_1_idx, example_1 = _get_mcd_idx_1(
+          divergence,
+          examples_1,
+          compounds_1,
+          compounds_2,
+          atoms_1_single,
+          get_compounds_fn=get_compounds_fn,
+          get_atoms_fn=get_atoms_fn,
+          start_idx=start_idx_1)
+      
+      if not example_1:
+        # print("Cannot find example_1 idx to swap.")
+        break
+
+      compounds_example_1 = get_compounds_fn(example_1)
+      compounds_1.subtract(compounds_example_1)
+      compounds_2.update(compounds_example_1)
+
+      # Second, we find an example in examples_2 that would increase compound
+      # divergence if moved to examples_1, taking into account the effect of
+      # moving the example selected above to examples_2 first.
+      example_2_idx, example_2 = _get_mcd_idx_2(
+          divergence,
+          examples_2,
+          compounds_1,
+          compounds_2,
+          get_compounds_fn=get_compounds_fn,
+          start_idx=start_idx_2)
+
+      if not example_2:
+        # print("Cannot find example_2 idx to swap.")
+        break
+
+      compounds_example_2 = get_compounds_fn(example_2)
+      compounds_2.subtract(compounds_example_2)
+      compounds_1.update(compounds_example_2)
+
+      # Swap the examples.
+      # print("Swapping %s and %s." % (example_1, example_2))
+      examples_1[example_1_idx] = example_2
+      examples_2[example_2_idx] = example_1
+
+      # If a swap happens, we continue the search from those indices in the next
+      # iteration, since the previously skipped examples might be less likely to
+      # increase divergence.
+      start_idx_1 = (example_1_idx + 1) % len(examples_1)
+      start_idx_2 = (example_2_idx + 1) % len(examples_2)
+    else:
+      raise Exception('not possible you occur this branch.')
+  # print("Max iterations reached.")
+
+  return examples_1, examples_2
 
 def minimize_divergence(examples_1, examples_2, get_compounds_fn, get_atoms_fn,
                         max_iterations, min_divergence, min_atom_count):
@@ -577,7 +703,10 @@ def swap_examples(examples_1_,
                   divergence=None,
                   min_atom_count=1,
                   print_frequencies=True,
-                  direction='max'):
+                  direction='max',
+                  set_div=0., # works for direction="set_div"
+                  threshold=0.1 # works for direction="set_div"
+                  ): 
   """Swaps examples between examples_1 and examples_2 to maximize divergence.
 
   This approach first balances atoms to ensure that every atom that appears
@@ -623,6 +752,11 @@ def swap_examples(examples_1_,
     examples_1, examples_2 = minimize_divergence(examples_1, examples_2,
                                                 get_compounds_fn, get_atoms_fn,
                                                 max_iterations, divergence,
+                                                min_atom_count)
+  elif direction == "set_div":
+    examples_1, examples_2 = target_divergence(examples_1, examples_2,
+                                                get_compounds_fn, get_atoms_fn,
+                                                max_iterations, set_div, threshold,
                                                 min_atom_count)
     
   if print_frequencies:
