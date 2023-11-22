@@ -240,7 +240,7 @@ def get_div_splits(combs, div=0, torlerate=0.1, sample_num=10, ratio=0.5, round_
             total_div += compound_divergence_out
             tgt_samples.append((e1, e2))
 
-      if len(tgts) > sample_num:
+      if len(tgts) >= sample_num:
         break
 
     print('when constructing divergence splits, random divergence = ', round(div_sum/cnt,round_),'sampled divergence = ', round(total_div/len(tgt_samples), round_), len(tgts), len(tgt_samples))

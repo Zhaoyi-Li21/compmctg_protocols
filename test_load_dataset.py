@@ -2,10 +2,11 @@
 test the basic functions of the srcfile `load_dataset.py`
 '''
 from load_dataset import ClsDataset, GenDataset
-
-dataset = "Fyelp-v1" # eta = 0.25, 0.5, 0.75
+# （min, 0.25, 0.5, 0.75, max）
+# (min, 0.65, rand, max)
+# dataset = "Fyelp-v1" # eta = 0.25, 0.5, 0.75
 # dataset = "Fyelp-v3" # eta = 0.25, 0.5, 0.75
-# dataset = "Yelp" # eta = 0.65 only
+dataset = "Yelp" # eta = 0.65 only
 
 cls_data = ClsDataset('/data2/home/zhaoyi/compctg/dataset/'+dataset+'/cls.json')
 gen_data = GenDataset('/data2/home/zhaoyi/compctg/dataset/'+dataset+'/gen.json')
@@ -21,7 +22,7 @@ print(len(gen_data.rand_splits))
 # min_div = 0.0
 # max_div = 0.335
 # eta = 0.75
-
+# return 10 splits, each split divergence \in {set_div*(1-tor), set_div*(1+tor)}
 def div_splits(dataset="Fyelp-v3", eta=0.25, tor=0.1):
     # or dataset =  "Yelp"
     # eta = {0.25, 0.5, 0.75} 
@@ -39,6 +40,7 @@ def div_splits(dataset="Fyelp-v3", eta=0.25, tor=0.1):
     set_div = (max_div-min_div) * eta + min_div
     
     gen_data.create_specific_divergence_splits(set_div, torlerate=tor, times=100000)
+    # gen_data.div_splits list
     print(gen_data.div_splits[0])
     print(len(gen_data.div_splits))
     
