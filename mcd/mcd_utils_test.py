@@ -13,9 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Tests for mcd_utils."""
-# from . import mcd_utils
-import mcd.mcd_utils as mcd_utils
-# import tensorflow as tf
+
+import mcd.mcd_utils as mcd_utils # use from outer file
+# import mcd_utils # direct usage
+
 
 import random
 random.seed(2023)
@@ -391,17 +392,17 @@ class McdUtilsTest():
 
     tot = list()
     for a in ['a1', 'a2']:
-      #for b in ['b1', 'b2']:
-      for b in ['b1', 'b2', 'b3', 'b4', 'b5']:
+      for b in ['b1', 'b2']:
+      # for b in ['b1', 'b2', 'b3', 'b4', 'b5']:
       # for b in ['b1', 'b2', 'b3']:
         #for c in ['c1', 'c2', 'c3']:
         for c in ['c1', 'c2']:
         #for c in ['c1', 'c2', 'c3', 'c4', 'c5']:
-          for d in ['d1', 'd2']:
+          #for d in ['d1', 'd2']:
           #for d in ['d1', 'd2', 'd3', 'd4', 'd5']:
             #for e in ['e1', 'e2']:
               #tot.append(a+' '+b+' '+c+' '+d+' '+e)
-              tot.append(a+' '+b+' '+c+' '+d)
+              tot.append(a+' '+b+' '+c)
               #tot.append(a+' '+b)
     max_divergence = -0.1
     min_divergence = 1.1
@@ -444,6 +445,8 @@ class McdUtilsTest():
 
       compound_divergence_in = mcd_utils.measure_example_divergence(
           examples_in_1, examples_in_2, _get_compounds_fn)
+      print(compound_divergence_in)
+      continue
       #self.assertEqual(compound_divergence_in, 0.8)
       # print(compound_divergence_in)
       div_sum += compound_divergence_in
@@ -504,8 +507,8 @@ class McdUtilsTest():
           if (e1, e2) not in min_samples:
             min_samples.append((e1, e2))
 
-    print(round(div_sum/cnt,3), max_divergence, len(maxs), min_divergence, len(mins))
-    print("my test end")
+    # print(round(div_sum/cnt,3), max_divergence, len(maxs), min_divergence, len(mins))
+    # print("my test end")
   
   '''
   def test_get_all_compounds(self):
