@@ -5,35 +5,7 @@
 1. "sent"$\in${"pos","neg"}  
 2. "topic"$\in${"books", "clothing", "music", "electronics", "movies", "sports"}
 
-#### 2. FYelp(v.1)
-3 attributes: "sentiment", "gender", "cuisine"  
-1. "sentiment"$\in${"Pos","Neg"}  
-2. "gender"$\in${"Male","Female"}  
-3. "cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
-Below is an example:
-```
-{
-    "gender": "Male",
-    "sentiment": "Pos",
-    "cuisine": "Bar",
-    "review": "love going here for happy hour or dinner ! great patio with fans to beat the stl heat ! also ... very accomodating at this location . i like the veal milanese but with mixed greens instead of pasta ! they 'll modify the menu to suit your taste !\n"
-}
-```
-#### 3. FYelp(v.2)
-3 attributes: "sentiment", "gender", "cuisine"  
-1. "sentiment"$\in${"Pos","Neg","Neu"}  
-2. "gender"$\in${"Male","Female"}  
-3. "cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
-Below is an example:
-```
-{
-    "gender": "Male",
-    "sentiment": "Pos",
-    "cuisine": "Bar",
-    "review": "love going here for happy hour or dinner ! great patio with fans to beat the stl heat ! also ... very accomodating at this location . i like the veal milanese but with mixed greens instead of pasta ! they 'll modify the menu to suit your taste !\n"
-}
-```
-#### 4. FYelp(v.3)
+#### 2. FYelp(v.3)
 4 attributes: "sentiment", "gender", "cuisine", "tense"  
 1. "sentiment"$\in${"Pos","Neg"}  
 2. "gender"$\in${"Male","Female"}  
@@ -49,37 +21,19 @@ Below is an example:
     "review": "love going here for happy hour or dinner ! great patio with fans to beat the stl heat ! also ... very accomodating at this location . i like the veal milanese but with mixed greens instead of pasta ! they 'll modify the menu to suit your taste !\n"
 }
 ```
-#### 5. FYelp(v.4)
-4 attributes: "sentiment", "gender", "cuisine", "tense"  
-1. "sentiment"$\in${"Pos","Neg","Neu"}  
-2. "gender"$\in${"Male","Female"}  
-3. "cuisine"$\in${"Asian","American","Mexican","Bar","Dessert"}  
-4. "tense"$\in${"present","past"}  
-Below is an example:
-```
-{
-    "gender": "Male",
-    "sentiment": "Pos",
-    "cuisine": "Bar",
-    "tense": "Present",
-    "review": "love going here for happy hour or dinner ! great patio with fans to beat the stl heat ! also ... very accomodating at this location . i like the veal milanese but with mixed greens instead of pasta ! they 'll modify the menu to suit your taste !\n"
-}
-```
-#### 6. Yelp
+#### 3. Yelp
 3 attributes: "sentiment", "pronoun", "tense"  
 1. "sentiment"$\in${"pos","neg"}  
 2. "pronoun"$\in${"plural","singular"}  
 3. "tense"$\in${"present","past"}
 
-#### 7. Mixture(IMDB, OpeNER and Sentube)
+#### 4. Mixture(IMDB, OpeNER and Sentube)
 2 attributes: "sentiment", "topic_cged"  
 1. "sentiment"$\in${"pos","neg"}  
 2. "topic_cged"$\in${"imdb", "opener", "tablets", "auto"}
 
-### Usage
-Basically, you can refer to `test_load_dataset.py` and view the code in the `load_dataset.py`.  
+### Usage: Constructing Training / Testing Sets (w. HoldOut, ACD and Few-Shot Protocols)
+Basically, you can refer to the inferences in `test_load_dataset.py` and view the code in the `load_dataset.py`.  
 1. Construction of the classifer data : training/dev/testing (70% : 15% : 15%)
 2. Construction of the generator training data: HoldOut/MCD(max-avg-min)/FewShot(max-avg-min)
-3. Details on constructing the MCD/Few-Shot training set for generator:  
-TODO
 
