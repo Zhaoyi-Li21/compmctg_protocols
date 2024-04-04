@@ -37,3 +37,5 @@ Basically, you can refer to the inferences in `test_load_dataset.py` and view th
 1. Construction of the classifer data : training/dev/testing (70% : 15% : 15%)
 2. Construction of the generator training data: HoldOut/MCD(max-avg-min)/FewShot(max-avg-min)
 
+### Acknowledgement:
+The implementation is on the basis of Google Research's implementation of TMCD (https://github.com/google-research/language/tree/master/language/compgen/nqg, "Compositional Generalization and Natural Language Variation: Can a Semantic Parsing Approach Handle Both?", ACL'2021).
