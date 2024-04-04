@@ -1,4 +1,4 @@
-## Compositional Testing Benchmark for Open-Domain Controllable Text Generation
+## Implementation of 3-dimensional Testing Protocols (HoldOut, ACD and FewShot) for CompMCTG
 ### Datasets
 #### 1. Amazon Reviews
 2 attributes: "sent", "topic"  
@@ -32,7 +32,7 @@ Below is an example:
 1. "sentiment"$\in${"pos","neg"}  
 2. "topic_cged"$\in${"imdb", "opener", "tablets", "auto"}
 
-### Usage: Constructing Training / Testing Sets (w. HoldOut, ACD and Few-Shot Protocols)
+### Usage: For Constructing Training / Testing Sets (w. HoldOut, ACD and Few-Shot Protocols)
 Basically, you can refer to the inferences in `test_load_dataset.py` and view the code in the `load_dataset.py`.  
 1. Construction of the classifer data : training/dev/testing (70% : 15% : 15%)
 2. Construction of the generator training data: HoldOut/MCD(max-avg-min)/FewShot(max-avg-min)
