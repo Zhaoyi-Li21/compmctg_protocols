@@ -1,4 +1,5 @@
 ## Implementation of 3-dimensional Testing Protocols (HoldOut, ACD and FewShot) for CompMCTG
+This repo contains the implementation of of 3-dimensional Testing Protocols (HoldOut, ACD and FewShot) for CompMCTG (the main repo can be found here: https://github.com/tqzhong/CG4MCTG.)
 ### Datasets
 #### 1. Amazon Reviews
 2 attributes: "sent", "topic"  
